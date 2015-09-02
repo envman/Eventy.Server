@@ -8,6 +8,8 @@ namespace EventServer.TestClient
 {
     class Program
     {
+        private JsonWebToken _token;
+
         static void Main(string[] args)
         {
             var program = new Program();
@@ -45,11 +47,26 @@ namespace EventServer.TestClient
                 case "2":
                     Login();
                     break;
+                case "3":
+                    TestToken();
+                    break;
                 case "0":
                     return false;
             }
 
             return true;
+        }
+
+        private void TestToken()
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.access_token);
+
+                var response = client.GetAsync("http://localhost:1436/api/Values").Result;
+
+                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            }
         }
 
         private void Login()
@@ -68,8 +85,10 @@ namespace EventServer.TestClient
                 var content = new FormUrlEncodedContent(pairs);
 
                 var response = client.PostAsync("http://localhost:1436/Token", content).Result;
-            
-                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+
+                var tokenData = response.Content.ReadAsStringAsync().Result;
+                _token = JsonConvert.DeserializeObject<JsonWebToken>(tokenData);
+                Console.WriteLine(tokenData);
             }
         }
 
@@ -121,4 +140,16 @@ namespace EventServer.TestClient
             Console.WriteLine(@"                       ((/   \))");
         }
     }
+
+
+    public class JsonWebToken
+    {
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public int expires_in { get; set; }
+        public string userName { get; set; }
+        public string issued { get; set; }
+        public string expires { get; set; }
+    }
+
 }
