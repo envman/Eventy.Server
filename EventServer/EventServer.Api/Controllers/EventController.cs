@@ -10,13 +10,16 @@ namespace EventServer.Api.Controllers
     [Authorize]
     public class EventController : ApiController
     {
-        //public IEnumerable<Event> Get()
-        //{
-            
-        //}
-    }
+        [HttpGet]
+        public IEnumerable<Event> Get()
+        {
+            throw new NotImplementedException();
+        }
 
-    public class Event
-    {
+        [HttpGet]
+        public Event Get([FromUri]Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
