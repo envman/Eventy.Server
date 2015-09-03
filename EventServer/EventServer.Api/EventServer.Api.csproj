@@ -206,7 +206,29 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Event.cs" />
+    <Compile Include="Controllers\EventHeader.cs" />
+    <Compile Include="Controllers\EventUsersController.cs" />
+    <Compile Include="Controllers\UserHeader.cs" />
+    <Compile Include="Extensions\ApiControllerExtensions.cs" />
+    <Compile Include="Migrations\201509021827405_InitialCreate.cs" />
+    <Compile Include="Migrations\201509021827405_InitialCreate.Designer.cs">
+      <DependentUpon>201509021827405_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509031308047_AddEvents.cs" />
+    <Compile Include="Migrations\201509031308047_AddEvents.Designer.cs">
+      <DependentUpon>201509031308047_AddEvents.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509031333480_AddEventOwner.cs" />
+    <Compile Include="Migrations\201509031333480_AddEventOwner.Designer.cs">
+      <DependentUpon>201509031333480_AddEventOwner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509031815422_EventUserDetails.cs" />
+    <Compile Include="Migrations\201509031815422_EventUserDetails.Designer.cs">
+      <DependentUpon>201509031815422_EventUserDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Attending.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -216,6 +238,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\EventUser.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
@@ -287,6 +310,20 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201509021827405_InitialCreate.resx">
+      <DependentUpon>201509021827405_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509031308047_AddEvents.resx">
+      <DependentUpon>201509031308047_AddEvents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509031333480_AddEventOwner.resx">
+      <DependentUpon>201509031333480_AddEventOwner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509031815422_EventUserDetails.resx">
+      <DependentUpon>201509031815422_EventUserDetails.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

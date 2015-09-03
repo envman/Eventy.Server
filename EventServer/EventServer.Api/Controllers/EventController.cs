@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
+using EventServer.Api.Extensions;
+using EventServer.Api.Models;
 
 namespace EventServer.Api.Controllers
 {
@@ -11,15 +11,49 @@ namespace EventServer.Api.Controllers
     public class EventController : ApiController
     {
         [HttpGet]
-        public IEnumerable<Event> Get()
+        public IEnumerable<EventHeader> Get()
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                var user = this.CurrentUser();
+
+                return context.EventUsers
+                    .Where(eu => eu.UserId == user.Id)
+                    .Select(eu => new EventHeader
+                    {
+                        Id = eu.EventId,
+                        Name = eu.Event.Name,
+                    });
+            }
         }
 
         [HttpGet]
         public Event Get([FromUri]Guid id)
         {
-            throw new NotImplementedException();
+            using (var context = new ApplicationDbContext())
+            {
+                return context.Events
+                    .Single(e => e.Id == id);
+            }
+        }
+
+        [HttpPut]
+        public void Put([FromUri]Guid id, [FromBody]Event @event)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                context.Events.Add(@event);
+                context.EventUsers.Add(new EventUser
+                {
+                    Id = Guid.NewGuid(),
+                    Attending = Attending.Yes,
+                    EventId = @event.Id,
+                    Owner = true,
+                    UserId = this.CurrentUser().Id,
+                });
+
+                context.SaveChanges();
+            }
         }
     }
 }

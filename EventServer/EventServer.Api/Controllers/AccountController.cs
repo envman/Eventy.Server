@@ -6,7 +6,6 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
-using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -23,7 +22,7 @@ namespace EventServer.Api.Controllers
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
-        private const string LocalLoginProvider = "Local";
+        private const string LOCAL_LOGIN_PROVIDER = "Local";
         private ApplicationUserManager _userManager;
 
         public AccountController()
@@ -56,13 +55,13 @@ namespace EventServer.Api.Controllers
         [Route("UserInfo")]
         public UserInfoViewModel GetUserInfo()
         {
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             return new UserInfoViewModel
             {
                 Email = User.Identity.GetUserName(),
                 HasRegistered = externalLogin == null,
-                LoginProvider = externalLogin != null ? externalLogin.LoginProvider : null
+                LoginProvider = externalLogin?.LoginProvider
             };
         }
 
@@ -85,9 +84,9 @@ namespace EventServer.Api.Controllers
                 return null;
             }
 
-            List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
+            var logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
+            foreach (var linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -100,14 +99,14 @@ namespace EventServer.Api.Controllers
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
-                    LoginProvider = LocalLoginProvider,
+                    LoginProvider = LOCAL_LOGIN_PROVIDER,
                     ProviderKey = user.UserName,
                 });
             }
 
             return new ManageInfoViewModel
             {
-                LocalLoginProvider = LocalLoginProvider,
+                LocalLoginProvider = LOCAL_LOGIN_PROVIDER,
                 Email = user.UserName,
                 Logins = logins,
                 ExternalLoginProviders = GetExternalLogins(returnUrl, generateState)
@@ -125,7 +124,7 @@ namespace EventServer.Api.Controllers
 
             IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -202,7 +201,7 @@ namespace EventServer.Api.Controllers
 
             IdentityResult result;
 
-            if (model.LoginProvider == LocalLoginProvider)
+            if (model.LoginProvider == LOCAL_LOGIN_PROVIDER)
             {
                 result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
             }
@@ -258,9 +257,9 @@ namespace EventServer.Api.Controllers
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
-                    OAuthDefaults.AuthenticationType);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                   OAuthDefaults.AuthenticationType);
                 ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
@@ -330,7 +329,7 @@ namespace EventServer.Api.Controllers
 
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -368,7 +367,7 @@ namespace EventServer.Api.Controllers
             result = await UserManager.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
-                return GetErrorResult(result); 
+                return GetErrorResult(result);
             }
             return Ok();
         }

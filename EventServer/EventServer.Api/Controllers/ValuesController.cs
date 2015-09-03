@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Web;
 using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace EventServer.Api.Controllers
 {
@@ -13,6 +12,8 @@ namespace EventServer.Api.Controllers
         // GET api/values
         public IEnumerable<string> Get()
         {
+            var user = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.Current.User.Identity.GetUserId());
+
             return new string[] { "value1", "value2" };
         }
 

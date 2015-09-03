@@ -1,6 +1,6 @@
 using System;
 
-namespace EventServer.Api.Controllers
+namespace EventServer.Api.Models
 {
     public class Event
     {
