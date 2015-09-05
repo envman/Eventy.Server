@@ -8,6 +8,8 @@ namespace EventServer.TestClient
 {
     class Program
     {
+        //private string _url = "http://localhost:1436";
+        private string _url = "http://joinin.azurewebsites.net";
         private JsonWebToken _token;
 
         static void Main(string[] args)
@@ -63,7 +65,7 @@ namespace EventServer.TestClient
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.access_token);
 
-                var response = client.GetAsync("http://localhost:1436/api/Values").Result;
+                var response = client.GetAsync($"{_url}/api/Values").Result;
 
                 Console.WriteLine(response.Content.ReadAsStringAsync().Result);
             }
@@ -84,7 +86,7 @@ namespace EventServer.TestClient
                         };
                 var content = new FormUrlEncodedContent(pairs);
 
-                var response = client.PostAsync("http://localhost:1436/Token", content).Result;
+                var response = client.PostAsync($"{_url}/Token", content).Result;
 
                 var tokenData = response.Content.ReadAsStringAsync().Result;
                 _token = JsonConvert.DeserializeObject<JsonWebToken>(tokenData);
@@ -110,7 +112,7 @@ namespace EventServer.TestClient
 
                 var content = new StringContent(data);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                var response = client.PostAsync("http://localhost:1436/api/Account/Register", content).Result;
+                var response = client.PostAsync($"{_url}/api/Account/Register", content).Result;
 
                 Console.WriteLine($"Reponse Status: {response.StatusCode}");
             }
