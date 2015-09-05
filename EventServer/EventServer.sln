@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventServer.Api", "EventSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventServer.TestClient", "EventServer.TestClient\EventServer.TestClient.csproj", "{1C387F54-AE89-49E2-8B7E-961A2557EDFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventServer.Web", "EventServer.Web\EventServer.Web.csproj", "{C43C5379-68C5-421B-9AEA-D9DDE54304FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1C387F54-AE89-49E2-8B7E-961A2557EDFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C387F54-AE89-49E2-8B7E-961A2557EDFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C387F54-AE89-49E2-8B7E-961A2557EDFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C43C5379-68C5-421B-9AEA-D9DDE54304FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C43C5379-68C5-421B-9AEA-D9DDE54304FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C43C5379-68C5-421B-9AEA-D9DDE54304FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C43C5379-68C5-421B-9AEA-D9DDE54304FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
