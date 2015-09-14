@@ -4,14 +4,15 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Mvc;
 using EventServer.Web.Models;
+using EventServer.Web.Services;
 using Newtonsoft.Json;
 
 namespace EventServer.Web.Controllers
 {
     public class LoginController : Controller
     {
-        //private string _url = "http://joinin.azurewebsites.net";
-        private string _url = "http://localhost:1436";
+        private string _url = "http://joinin.azurewebsites.net";
+        //private string _url = "http://localhost:1436";
 
         // GET: Login
         [HttpGet]
