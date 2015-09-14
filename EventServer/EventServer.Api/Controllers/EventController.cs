@@ -23,7 +23,7 @@ namespace EventServer.Api.Controllers
                     {
                         Id = eu.EventId,
                         Name = eu.Event.Name,
-                    });
+                    }).ToList();
             }
         }
 

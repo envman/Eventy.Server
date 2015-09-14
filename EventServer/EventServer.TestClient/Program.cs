@@ -8,8 +8,8 @@ namespace EventServer.TestClient
 {
     class Program
     {
-        //private string _url = "http://localhost:1436";
-        private string _url = "http://joinin.azurewebsites.net";
+        private string _url = "http://localhost:1436";
+        //private string _url = "http://joinin.azurewebsites.net";
         private JsonWebToken _token;
 
         static void Main(string[] args)
@@ -52,11 +52,55 @@ namespace EventServer.TestClient
                 case "3":
                     TestToken();
                     break;
+                case "4":
+                    CreateEvent();
+                    break;
+                case "5":
+                    GetEvents();
+                    break;
                 case "0":
                     return false;
             }
 
             return true;
+        }
+
+        private void GetEvents()
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.access_token);
+
+                var response = client.GetAsync($"{_url}/api/Event/").Result;
+                response.EnsureSuccessStatusCode();
+
+                Console.WriteLine(response.Content.ReadAsStringAsync().Result);
+            }
+        }
+
+        private void CreateEvent()
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token.access_token);
+
+                var guid = "F2B5266C-00E9-4C0B-8830-7833FCD14823";
+                var @event = new
+                {
+                    Id = Guid.Parse(guid),
+                    StartDateTime = DateTime.Now,
+                    EndDateTime = DateTime.Now,
+                    Name = "Test Event",
+                    Description = "Test Description"
+                };
+
+                var content = new StringContent(JsonConvert.SerializeObject(@event));
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = client.PutAsync($"{_url}/api/Event/{guid}", content).Result;
+
+                response.EnsureSuccessStatusCode();
+            }
         }
 
         private void TestToken()
