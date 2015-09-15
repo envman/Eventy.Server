@@ -209,7 +209,8 @@
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\EventUsersController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
-    <Compile Include="Controllers\UserHeader.cs" />
+    <Compile Include="Controllers\UserSearchController.cs" />
+    <Compile Include="Models\UserHeader.cs" />
     <Compile Include="Extensions\ApiControllerExtensions.cs" />
     <Compile Include="Migrations\201509021827405_InitialCreate.cs" />
     <Compile Include="Migrations\201509021827405_InitialCreate.Designer.cs">
