@@ -23,6 +23,8 @@ namespace EventServer.Api.Controllers
                     {
                         Id = eu.EventId,
                         Name = eu.Event.Name,
+                        ImageId = eu.Event.ImageId,
+                        Description = eu.Event.Description,
                     }).ToList();
             }
         }
