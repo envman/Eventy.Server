@@ -209,12 +209,14 @@
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\EventUsersController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\InviteController.cs" />
     <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\UserSearchController.cs" />
     <Compile Include="Migrations\201509281151080_ScheduleItems.cs" />
     <Compile Include="Migrations\201509281151080_ScheduleItems.Designer.cs">
       <DependentUpon>201509281151080_ScheduleItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\UserHeader.cs" />
     <Compile Include="Extensions\ApiControllerExtensions.cs" />

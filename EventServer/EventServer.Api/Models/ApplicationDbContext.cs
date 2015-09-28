@@ -10,6 +10,7 @@ namespace EventServer.Api.Models
         public DbSet<Image> Images { get; set; }
         public DbSet<ChatMessage> ChatMessages { get; set; }
         public DbSet<ScheduleItem> ScheduleItems { get; set; }
+        public DbSet<Invite> Invites { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
