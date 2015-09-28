@@ -209,7 +209,13 @@
     <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\EventUsersController.cs" />
     <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\ScheduleController.cs" />
     <Compile Include="Controllers\UserSearchController.cs" />
+    <Compile Include="Migrations\201509281151080_ScheduleItems.cs" />
+    <Compile Include="Migrations\201509281151080_ScheduleItems.Designer.cs">
+      <DependentUpon>201509281151080_ScheduleItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\UserHeader.cs" />
     <Compile Include="Extensions\ApiControllerExtensions.cs" />
     <Compile Include="Migrations\201509021827405_InitialCreate.cs" />
@@ -342,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509142010182_ChatMessage.resx">
       <DependentUpon>201509142010182_ChatMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509281151080_ScheduleItems.resx">
+      <DependentUpon>201509281151080_ScheduleItems.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,10 @@
+﻿body {
+}
+
+#login-main {
+    background-image: url('Images/loginback.jpg');
+    max-height: 1000px;
+    min-height: 850px;
+    height: 100%;
+    background-size: cover;
+}

@@ -9,8 +9,18 @@ using EventServer.Api.Models;
 
 namespace EventServer.Api.Controllers
 {
+    [Authorize]
     public class ImageController : ApiController
     {
+        [HttpGet]
+        public IHttpActionResult Get()
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return Json(context.Images.ToList());
+            }
+        }
+
         [HttpGet]
         public HttpResponseMessage Get(Guid id)
         {
@@ -45,6 +55,7 @@ namespace EventServer.Api.Controllers
                     Data = memoryStream.ToArray(),
                 };
                 context.Images.Add(image);
+                context.SaveChanges();
 
                 return image.Id;
             }
@@ -56,15 +67,19 @@ namespace EventServer.Api.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var requestContent = Request.Content;
-                var stream = requestContent.ReadAsStreamAsync().Result;
-                var memoryStream = new MemoryStream();
-                stream.CopyTo(memoryStream);
+                var bytes = requestContent.ReadAsByteArrayAsync().Result;
+
+                if (bytes.Length < 1)
+                {
+                    throw new Exception("BAD HARRY!");
+                }
 
                 context.Images.Add(new Image
                 {
                     Id = id,
-                    Data = memoryStream.ToArray(),
+                    Data = bytes,
                 });
+                context.SaveChanges();
             }
         }
     }
