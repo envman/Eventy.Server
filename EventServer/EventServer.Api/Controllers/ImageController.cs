@@ -9,10 +9,10 @@ using EventServer.Api.Models;
 
 namespace EventServer.Api.Controllers
 {
-    [Authorize]
     public class ImageController : ApiController
     {
         [HttpGet]
+        [Authorize]
         public IHttpActionResult Get()
         {
             using (var context = new ApplicationDbContext())

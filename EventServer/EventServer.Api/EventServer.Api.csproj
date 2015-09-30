@@ -216,6 +216,10 @@
     <Compile Include="Migrations\201509281151080_ScheduleItems.Designer.cs">
       <DependentUpon>201509281151080_ScheduleItems.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509292011406_Invites.cs" />
+    <Compile Include="Migrations\201509292011406_Invites.Designer.cs">
+      <DependentUpon>201509292011406_Invites.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Invite.cs" />
     <Compile Include="Models\ScheduleItem.cs" />
     <Compile Include="Models\UserHeader.cs" />
@@ -353,6 +357,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509281151080_ScheduleItems.resx">
       <DependentUpon>201509281151080_ScheduleItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509292011406_Invites.resx">
+      <DependentUpon>201509292011406_Invites.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

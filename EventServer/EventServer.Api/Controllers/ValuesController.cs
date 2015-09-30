@@ -6,7 +6,6 @@ using Microsoft.AspNet.Identity.Owin;
 
 namespace EventServer.Api.Controllers
 {
-    [Authorize]
     public class ValuesController : ApiController
     {
         // GET api/values
@@ -14,7 +13,7 @@ namespace EventServer.Api.Controllers
         {
             var user = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.Current.User.Identity.GetUserId());
 
-            return new string[] { "value1", "value2" };
+            return new string[] { "Magic", "More Magic!" };
         }
 
         // GET api/values/5
