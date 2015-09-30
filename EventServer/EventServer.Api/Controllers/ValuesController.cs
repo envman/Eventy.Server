@@ -13,7 +13,7 @@ namespace EventServer.Api.Controllers
         {
             var user = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>().FindById(HttpContext.Current.User.Identity.GetUserId());
 
-            return new string[] { "Testing", "More Magic!" };
+            return new string[] { "Testing", "More Testing!" };
         }
 
         // GET api/values/5
