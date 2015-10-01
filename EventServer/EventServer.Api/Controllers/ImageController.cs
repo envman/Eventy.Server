@@ -64,6 +64,7 @@ namespace EventServer.Api.Controllers
 
                 var stream = new MemoryStream();
                 ImageBuilder.Current.Build(image.Data, stream, settings);
+                stream.Position = 0;
 
                 var result = new HttpResponseMessage(HttpStatusCode.OK)
                 {
