@@ -9,8 +9,7 @@ namespace EventServer.TestClient
     class Program
     {
         //private string _url = "http://localhost:1436";
-        //private string _url = "http://joinin.azurewebsites.net";
-        private string _url = "https://etech-id.azurewebsites.net/core/connect";
+        private string _url = "http://joinin.azurewebsites.net";
         private JsonWebToken _token;
 
         static void Main(string[] args)
@@ -118,7 +117,7 @@ namespace EventServer.TestClient
 
         private void Login()
         {
-            var userName = GetValue("Email"); // Email is required to login, look at at some point.
+            var userName = GetValue("Username"); // Email is required to login, look at at some point.
             var password = GetValue("Password");
 
             using (var client = new HttpClient())

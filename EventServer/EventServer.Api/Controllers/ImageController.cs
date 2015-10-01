@@ -18,7 +18,12 @@ namespace EventServer.Api.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                return Json(context.Images.ToList());
+                return Json(context.Images
+                    .Select(i => new
+                    {
+                        i.Id,
+                    })
+                    .ToList());
             }
         }
 
