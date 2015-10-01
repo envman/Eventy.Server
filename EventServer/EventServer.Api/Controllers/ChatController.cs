@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using EventServer.Api.Extensions;
 using EventServer.Api.Models;
@@ -27,7 +25,13 @@ namespace EventServer.Api.Controllers
                 return Json(context.ChatMessages
                     .Where(c => c.EventId == id)
                     .OrderBy(c => c.PostTime)
-                    //.Select(c => RenderChatMessage(c))
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.Message,
+                        c.PostTime,
+                        c.Poster.UserName,
+                    })
                     .ToList());
 
             }
@@ -53,7 +57,13 @@ namespace EventServer.Api.Controllers
                     .Where(c => c.EventId == eventId)
                     .Where(c => c.PostTime > date)
                     .OrderBy(c => c.PostTime)
-                    .Select(c => RenderChatMessage(c))
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.Message,
+                        c.PostTime,
+                        c.Poster.UserName,
+                    })
                     .ToList());
             }
         }
@@ -83,17 +93,6 @@ namespace EventServer.Api.Controllers
                 context.SaveChanges();
                 return chatMessage.Id;
             }
-        }
-
-        private object RenderChatMessage(ChatMessage message)
-        {
-            return new
-            {
-                message.Id,
-                message.Message,
-                message.PostTime,
-                message.Poster.UserName,
-            };
         }
     }
 
