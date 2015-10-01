@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web.Http;
 using EventServer.Api.Models;
+using ImageResizer;
 
 namespace EventServer.Api.Controllers
 {
@@ -37,6 +38,36 @@ namespace EventServer.Api.Controllers
                 result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                 return result;
             }
+        }
+
+        [HttpGet]
+        public HttpResponseMessage Get(Guid imageId, int width, int height)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var image = context.Images
+                    .Single(i => i.Id == imageId);
+
+                var settings = new ResizeSettings
+                {
+                    Format = "jpg",
+                    Mode = FitMode.Stretch,
+                    Width = width,
+                    Height = height,
+                    Scale = ScaleMode.Both
+                };
+
+                var stream = new MemoryStream();
+                ImageBuilder.Current.Build(image.Data, stream, settings);
+
+                var result = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StreamContent(stream)
+                };
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                return result;
+            }
+
         }
 
         [HttpPost]

@@ -30,6 +30,30 @@ namespace EventServer.Api.Controllers
             }
         }
 
+        [HttpGet]
+        public IEnumerable<ChatMessage> Get(Guid eventId, Guid lastChatId)
+        {
+            var user = this.CurrentUser();
+
+            using (var context = new ApplicationDbContext())
+            {
+                if (!context.EventUsers.Any(eu => eu.UserId == user.Id && eu.EventId == eventId))
+                {
+                    throw new HttpResponseException(HttpStatusCode.Unauthorized);
+                }
+
+                var date = context.ChatMessages
+                    .Single(c => c.Id == lastChatId)
+                    .PostTime;
+
+                return context.ChatMessages
+                    .Where(c => c.EventId == eventId)
+                    .Where(c => c.PostTime > date)
+                    .OrderBy(c => c.PostTime)
+                    .ToList();
+            }
+        }
+
         [HttpPost]
         public Guid Post([FromBody]ChatPost post)
         {

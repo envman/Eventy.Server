@@ -9,7 +9,8 @@ namespace EventServer.TestClient
     class Program
     {
         //private string _url = "http://localhost:1436";
-        private string _url = "http://joinin.azurewebsites.net";
+        //private string _url = "http://joinin.azurewebsites.net";
+        private string _url = "https://etech-id.azurewebsites.net/core/connect";
         private JsonWebToken _token;
 
         static void Main(string[] args)
@@ -126,7 +127,7 @@ namespace EventServer.TestClient
                         {
                             new KeyValuePair<string, string>( "grant_type", "password" ),
                             new KeyValuePair<string, string>( "username", userName ),
-                            new KeyValuePair<string, string> ( "Password", password )
+                            new KeyValuePair<string, string> ( "Password", password ),
                         };
                 var content = new FormUrlEncodedContent(pairs);
 
