@@ -12,19 +12,19 @@ namespace EventServer.Api.Controllers
     public class ChatController : ApiController
     {
         [HttpGet]
-        public IEnumerable<ChatMessage> Get(Guid eventId)
+        public IEnumerable<ChatMessage> Get(Guid id)
         {
             var user = this.CurrentUser();
 
             using (var context = new ApplicationDbContext())
             {
-                if (!context.EventUsers.Any(eu => eu.UserId == user.Id && eu.EventId == eventId))
+                if (!context.EventUsers.Any(eu => eu.UserId == user.Id && eu.EventId == id))
                 {
                     throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 }
 
                 return context.ChatMessages
-                    .Where(c => c.EventId == eventId)
+                    .Where(c => c.EventId == id)
                     .OrderBy(c => c.PostTime)
                     .ToList();
             }
