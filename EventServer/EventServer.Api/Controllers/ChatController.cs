@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using EventServer.Api.Extensions;
 using EventServer.Api.Models;
@@ -12,7 +13,7 @@ namespace EventServer.Api.Controllers
     public class ChatController : ApiController
     {
         [HttpGet]
-        public IEnumerable<ChatMessage> Get(Guid id)
+        public IHttpActionResult Get(Guid id)
         {
             var user = this.CurrentUser();
 
@@ -23,15 +24,17 @@ namespace EventServer.Api.Controllers
                     throw new HttpResponseException(HttpStatusCode.Unauthorized);
                 }
 
-                return context.ChatMessages
+                return Json(context.ChatMessages
                     .Where(c => c.EventId == id)
                     .OrderBy(c => c.PostTime)
-                    .ToList();
+                    .Select(c => RenderChatMessage(c))
+                    .ToList());
+
             }
         }
 
         [HttpGet]
-        public IEnumerable<ChatMessage> Get(Guid eventId, Guid lastChatId)
+        public IHttpActionResult Get(Guid eventId, Guid lastChatId)
         {
             var user = this.CurrentUser();
 
@@ -46,11 +49,12 @@ namespace EventServer.Api.Controllers
                     .Single(c => c.Id == lastChatId)
                     .PostTime;
 
-                return context.ChatMessages
+                return Json(context.ChatMessages
                     .Where(c => c.EventId == eventId)
                     .Where(c => c.PostTime > date)
                     .OrderBy(c => c.PostTime)
-                    .ToList();
+                    .Select(c => RenderChatMessage(c))
+                    .ToList());
             }
         }
 
@@ -79,6 +83,17 @@ namespace EventServer.Api.Controllers
                 context.SaveChanges();
                 return chatMessage.Id;
             }
+        }
+
+        private object RenderChatMessage(ChatMessage message)
+        {
+            return new
+            {
+                message.Id,
+                message.Message,
+                message.PostTime,
+                message.Poster.UserName,
+            };
         }
     }
 
