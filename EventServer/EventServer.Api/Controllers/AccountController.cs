@@ -15,6 +15,7 @@ using Microsoft.Owin.Security.OAuth;
 using EventServer.Api.Models;
 using EventServer.Api.Providers;
 using EventServer.Api.Results;
+using EventServer.Api.Services;
 
 namespace EventServer.Api.Controllers
 {
@@ -327,6 +328,8 @@ namespace EventServer.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            EmailNewUser(model.Email);
+
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 
             var result = await UserManager.CreateAsync(user, model.Password);
@@ -337,6 +340,17 @@ namespace EventServer.Api.Controllers
             }
 
             return Ok();
+        }
+
+        private void EmailNewUser(string email)
+        {
+            var service = new EmailService();
+            service.Send(
+                to: email,
+                subject: "JoinIn Registration",
+                body: "Welcome to JoinIn! \n\n" +
+                      "We should probably validate your email now!\n\n" +
+                      "The JoinIn Team!");
         }
 
         // POST api/Account/RegisterExternal

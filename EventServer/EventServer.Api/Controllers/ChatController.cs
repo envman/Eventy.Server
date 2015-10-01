@@ -33,7 +33,6 @@ namespace EventServer.Api.Controllers
                         c.Poster.UserName,
                     })
                     .ToList());
-
             }
         }
 
