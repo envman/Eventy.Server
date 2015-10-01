@@ -27,7 +27,7 @@ namespace EventServer.Api.Controllers
                 return Json(context.ChatMessages
                     .Where(c => c.EventId == id)
                     .OrderBy(c => c.PostTime)
-                    .Select(c => RenderChatMessage(c))
+                    //.Select(c => RenderChatMessage(c))
                     .ToList());
 
             }
