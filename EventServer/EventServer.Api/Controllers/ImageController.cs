@@ -21,8 +21,7 @@ namespace EventServer.Api.Controllers
                 return Json(context.Images
                     .Select(i => new
                     {
-                        i.Id,
-                        Size = i.Data.Length
+                        i.Id
                     })
                     .ToList());
             }
