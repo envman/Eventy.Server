@@ -22,6 +22,7 @@ namespace EventServer.Api.Controllers
                     .Select(i => new
                     {
                         i.Id,
+                        Size = i.Data.Length
                     })
                     .ToList());
             }
