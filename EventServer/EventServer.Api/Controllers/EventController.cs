@@ -44,15 +44,30 @@ namespace EventServer.Api.Controllers
         {
             using (var context = new ApplicationDbContext())
             {
-                context.Events.Add(@event);
-                context.EventUsers.Add(new EventUser
+                var existing = context.Events
+                    .Single(e => e.Id == id);
+
+                if (existing != null)
                 {
-                    Id = Guid.NewGuid(),
-                    Attending = Attending.Yes,
-                    EventId = @event.Id,
-                    Owner = true,
-                    UserId = this.CurrentUser().Id,
-                });
+                    existing.Description = @event.Description;
+                    existing.EndDateTime = @event.EndDateTime;
+                    existing.ImageId = @event.ImageId;
+                    existing.Location = @event.Location;
+                    existing.Name = @event.Name;
+                    existing.StartDateTime = @event.StartDateTime;
+                }
+                else
+                {
+                    context.Events.Add(@event);
+                    context.EventUsers.Add(new EventUser
+                    {
+                        Id = Guid.NewGuid(),
+                        Attending = Attending.Yes,
+                        EventId = @event.Id,
+                        Owner = true,
+                        UserId = this.CurrentUser().Id,
+                    });
+                }
 
                 context.SaveChanges();
             }

@@ -12,7 +12,6 @@ namespace EventServer.Web.Controllers
     public class LoginController : Controller
     {
         private string _url = "http://joinin.azurewebsites.net";
-        //private string _url = "http://localhost:1436";
 
         // GET: Login
         [HttpGet]

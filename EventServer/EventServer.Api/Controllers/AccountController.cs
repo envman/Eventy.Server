@@ -370,7 +370,7 @@ namespace EventServer.Api.Controllers
                 return InternalServerError();
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
 
             IdentityResult result = await UserManager.CreateAsync(user);
             if (!result.Succeeded)
