@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
+using EventServer.Api.Extensions;
 using EventServer.Api.Models;
 
 namespace EventServer.Api.Controllers
 {
-    [RoutePrefix("api/EventUsers")]
+    [Authorize]
     public class EventUsersController : ApiController
     {
         [HttpGet]
-        public IEnumerable<UserHeader> Get(Guid id)
+        public IEnumerable<UserHeader> Get()
         {
             using (var context = new ApplicationDbContext())
             {
+                var user = this.CurrentUser();
+
                 return context.EventUsers
-                    .Where(eu => eu.UserId == id.ToString())
+                    .Where(eu => eu.UserId == user.Id)
                     .Select(eu => new UserHeader
                     {
                         Id = eu.UserId,
@@ -26,18 +29,24 @@ namespace EventServer.Api.Controllers
         }
 
         [HttpGet]
-        [Route("Event")]
-        public IEnumerable<UserHeader> GetUsersForEvent(Guid eventId)
+        public IHttpActionResult Get(Guid id)
         {
             using (var context = new ApplicationDbContext())
             {
-                return context.EventUsers
-                    .Where(eu => eu.EventId == eventId)
+                var user = this.CurrentUser();
+
+                if (!context.EventUsers.Any(eu => eu.UserId == user.Id && eu.EventId == id))
+                {
+                    return BadRequest("No No!");
+                }
+
+                return Json(context.EventUsers
+                    .Where(eu => eu.EventId == id)
                     .Select(eu => new UserHeader
                     {
                         Id = eu.UserId,
                         UserName = eu.User.UserName,
-                    }).ToList();
+                    }).ToList());
             }
         }
 
