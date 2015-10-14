@@ -16,9 +16,9 @@ namespace EventServer.Api.Controllers
                     .Where(u => u.UserName.ToLower().Contains(query) || u.Email.ToLower().Contains(query))
                     .Select(u => new UserHeader
                     {
-                        Id = Guid.Parse(u.Id),
+                        Id = u.Id,
                         UserName = u.UserName,
-                    });
+                    }).ToList();
             }
         }
     }

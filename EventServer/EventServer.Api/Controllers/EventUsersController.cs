@@ -7,7 +7,7 @@ using EventServer.Api.Models;
 
 namespace EventServer.Api.Controllers
 {
-    [Authorize]
+    [RoutePrefix("api/EventUsers")]
     public class EventUsersController : ApiController
     {
         [HttpGet]
@@ -16,16 +16,17 @@ namespace EventServer.Api.Controllers
             using (var context = new ApplicationDbContext())
             {
                 return context.EventUsers
-                    .Where(eu => Guid.Parse(eu.UserId) == id)
+                    .Where(eu => eu.UserId == id.ToString())
                     .Select(eu => new UserHeader
                     {
-                        Id = Guid.Parse(eu.UserId),
+                        Id = eu.UserId,
                         UserName = eu.User.UserName,
-                    });
+                    }).ToList();
             }
         }
 
         [HttpGet]
+        [Route("Event")]
         public IEnumerable<UserHeader> GetUsersForEvent(Guid eventId)
         {
             using (var context = new ApplicationDbContext())
@@ -34,9 +35,9 @@ namespace EventServer.Api.Controllers
                     .Where(eu => eu.EventId == eventId)
                     .Select(eu => new UserHeader
                     {
-                        Id = Guid.Parse(eu.UserId),
+                        Id = eu.UserId,
                         UserName = eu.User.UserName,
-                    });
+                    }).ToList();
             }
         }
 
