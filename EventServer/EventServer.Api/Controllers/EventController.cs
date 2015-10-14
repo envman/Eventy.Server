@@ -45,7 +45,7 @@ namespace EventServer.Api.Controllers
             using (var context = new ApplicationDbContext())
             {
                 var existing = context.Events
-                    .Single(e => e.Id == id);
+                    .SingleOrDefault(e => e.Id == id);
 
                 if (existing != null)
                 {
