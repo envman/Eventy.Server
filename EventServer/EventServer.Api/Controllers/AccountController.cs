@@ -328,7 +328,14 @@ namespace EventServer.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            EmailNewUser(model.Email);
+            try
+            {
+                EmailNewUser(model.Email);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
 
             var user = new ApplicationUser { UserName = model.UserName, Email = model.Email };
 

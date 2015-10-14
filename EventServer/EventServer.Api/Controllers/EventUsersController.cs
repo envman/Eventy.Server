@@ -25,6 +25,21 @@ namespace EventServer.Api.Controllers
             }
         }
 
+        [HttpGet]
+        public IEnumerable<UserHeader> GetUsersForEvent(Guid eventId)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                return context.EventUsers
+                    .Where(eu => eu.EventId == eventId)
+                    .Select(eu => new UserHeader
+                    {
+                        Id = Guid.Parse(eu.UserId),
+                        UserName = eu.User.UserName,
+                    });
+            }
+        }
+
         [HttpPost]
         public void Post(EventUser eventUser)
         {
