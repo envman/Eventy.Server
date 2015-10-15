@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web.Http;
 using EventServer.Api.Models;
 using EventServer.Api.Services;
@@ -16,7 +17,7 @@ namespace EventServer.Api.Controllers
     public class InviteController : ApiController
     {
         [HttpPost]
-        public void Post(Invite invite)
+        public async Task Post(Invite invite)
         {
             using (var context = new ApplicationDbContext())
             {
@@ -48,13 +49,13 @@ namespace EventServer.Api.Controllers
                 context.Invites
                     .Add(invite);
 
-                EmailInvite(invite);
+                await EmailInvite(invite);
 
                 context.SaveChanges();
             }
         }
 
-        private void EmailInvite(Invite invite)
+        private async Task EmailInvite(Invite invite)
         {
             // Create the email object first, then add the properties.
             var myMessage = new SendGridMessage();
@@ -83,7 +84,14 @@ namespace EventServer.Api.Controllers
 
             var transportWeb = new Web(credentials);
 
-            transportWeb.DeliverAsync(myMessage).Wait();
+            try
+            {
+                await transportWeb.DeliverAsync(myMessage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
     }
 }

@@ -39,6 +39,28 @@ namespace EventServer.Api.Controllers
             }
         }
 
+        [HttpDelete]
+        public IHttpActionResult Delete(Guid id)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var userId = this.CurrentUser().Id;
+
+                if (!context.EventUsers.Any(eu => eu.UserId == userId && eu.EventId == id && eu.Owner))
+                {
+                    return Unauthorized();
+                }
+
+                var existing = context.Events
+                    .SingleOrDefault(e => e.Id == id);
+
+                context.Events.Remove(existing);
+                context.SaveChanges();
+
+                return Ok();
+            }
+        }
+
         [HttpPut]
         public void Put([FromUri]Guid id, [FromBody]Event @event)
         {
