@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using EventServer.Api.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -66,7 +67,17 @@ namespace EventServer.Api.Controllers
             };
         }
 
-        // POST api/Account/Logout
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<IHttpActionResult> DeleteUser()
+        {
+            var user = this.CurrentUser();
+
+            var reuslt = await UserManager.DeleteAsync(user);
+
+            return Ok();
+        }
+
         [Route("Logout")]
         public IHttpActionResult Logout()
         {
@@ -74,7 +85,6 @@ namespace EventServer.Api.Controllers
             return Ok();
         }
 
-        // GET api/Account/ManageInfo?returnUrl=%2F&generateState=true
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
